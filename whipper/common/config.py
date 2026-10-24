@@ -102,6 +102,9 @@ class Config:
         return option == 'True'
 
     def _findDriveSection(self, vendor, model, release):
+        if any(ord(c) < 0x20 or 0xD800 <= ord(c) <= 0xDFFF for c in release):
+            release = ''        
+
         for name in self._parser.sections():
             if not name.startswith('drive:'):
                 continue
